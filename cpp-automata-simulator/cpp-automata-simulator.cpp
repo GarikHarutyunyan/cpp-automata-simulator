@@ -42,7 +42,7 @@ int main() {
         cout << input << "  :  " << output << endl << endl;
     }
     catch (invalid_argument & err) {
-        cout << err.what();
+        cerr << err.what() << endl;
     }
 
     return 0;
