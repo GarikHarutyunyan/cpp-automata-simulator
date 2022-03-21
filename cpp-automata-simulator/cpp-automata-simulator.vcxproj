@@ -140,9 +140,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cpp-automata-simulator.cpp" />
+    <ClCompile Include="Automata.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Config.txt" />
+    <Text Include="AIsEvenConfig.txt" />
+    <Text Include="IsValidEmailConfig.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Automata.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

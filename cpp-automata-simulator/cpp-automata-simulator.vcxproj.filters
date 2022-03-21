@@ -18,10 +18,21 @@
     <ClCompile Include="cpp-automata-simulator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Automata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Config.txt">
+    <Text Include="AIsEvenConfig.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="IsValidEmailConfig.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Automata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
