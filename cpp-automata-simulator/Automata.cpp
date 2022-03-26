@@ -1,10 +1,7 @@
-#include <iostream>
 #include <fstream>
 #include <string>
 #include <algorithm>
 #include "Automata.h"
-
-using namespace std;
 
 Automata::Automata(string fileName) {
     string content;
@@ -54,7 +51,6 @@ Automata::Automata(string fileName) {
             while (content.length()) {
                 // Get the substring from start till ','
                 string current = content.substr(0, content.find(","));
-                //cout << content << endl;
                 this->states.push_back(current);
                 content.erase(0, current.length()+1);
             }
@@ -68,7 +64,6 @@ Automata::Automata(string fileName) {
             while (content.length()) {
                 // Get the substring from start till '|'
                 string current = content.substr(0, content.find("|"));
-                //cout << content << endl;
                 this->functionResults[n].push_back(current);
                 content.erase(0, current.length() + 1); // +1 for removing "|" character
             }
