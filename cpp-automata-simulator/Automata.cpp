@@ -2,7 +2,6 @@
 #include <string>
 #include <algorithm>
 #include "Automata.h"
-#include <utility>
 
 Automata::Automata(std::string fileName) {
     std::string content;
