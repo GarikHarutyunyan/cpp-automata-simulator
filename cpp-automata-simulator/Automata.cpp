@@ -62,6 +62,20 @@ Automata::Automata(std::string fileName) {
                 std::string key = this->states[n] + this->inputAlphabet[i];
                 // Get the substring from start till '|'
                 std::string value = content.substr(0, content.find("|"));
+
+                std::string outChar = value.substr(0, value.find(","));
+                std::string nextState = value.substr(value.find(",")+1, value.length()-1);
+                bool isOutCharValid = outChar.length() == 1 && this->outputAlphabet.find(outChar) < this->outputAlphabet.length();
+                bool isStateValid = distance(this->states.begin(), find(this->states.begin(), this->states.end(), nextState)) < this->states.size();
+                // Check if Output alphabet includes the current character
+                if (!isOutCharValid) {
+                    throw std::invalid_argument("Output Alphabet does not include the current character: " + outChar);
+                }
+                // Check if states vector includes the current state
+                if (!isStateValid) {
+                    throw std::invalid_argument("Current state does not exist: " + nextState);
+                }
+
                 this->functionResults.insert({ key, value});
                 content.erase(0, value.length() + 1); // +1 for removing "|" character
             }
@@ -85,23 +99,10 @@ std::string Automata::run(std::string input) {
             functonResult = this->functionResults[key];
             // Get the substring from start till ','
             std::string outChar = functonResult.substr(0, functonResult.find(","));
+            output = output + outChar;
 
-            // Check if Output alphabet includes the current character
-            if (outChar.length() == 1 && this->outputAlphabet.find(outChar) < this->outputAlphabet.length()) {
-                output = output + outChar;
-                currentState = functonResult.erase(0, 2);
-                
-                // Check if states vector includes the current state
-                if (distance(this->states.begin(), find(this->states.begin(), this->states.end(), currentState)) < this->states.size()) {
-                    this->activeState = currentState;
-                }
-                else {
-                    throw std::invalid_argument("Current state does not exist: " + currentState);
-                }
-            }
-            else {
-                throw std::invalid_argument("Output Alphabet does not include the current character: " + outChar);
-            }
+            currentState = functonResult.substr(2, functonResult.length()-1);
+            this->activeState = currentState;
         }
         else {
             throw std::invalid_argument("Input Alphabet does not include the current character: " + inputSymbol);
