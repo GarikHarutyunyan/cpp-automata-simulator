@@ -78,9 +78,9 @@ std::string Automata::run(std::string input) {
     this->activeState = this->states[0];
 
     for (int i = 0; i < input.length();i++) {
+        std::string inputSymbol(1, input[i]);
         // Check if Input alphabet includes the current character
         if (this->inputAlphabet.find(input[i]) < this->inputAlphabet.length()) {
-            std::string inputSymbol(1, input[i]);
             key = this->activeState + inputSymbol;
             functonResult = this->functionResults[key];
             // Get the substring from start till ','
@@ -104,7 +104,7 @@ std::string Automata::run(std::string input) {
             }
         }
         else {
-            throw std::invalid_argument("Input Alphabet does not include the current character: " + std::string(1,input[i]));
+            throw std::invalid_argument("Input Alphabet does not include the current character: " + inputSymbol);
         }
     }
 
