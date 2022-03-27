@@ -3,18 +3,18 @@
 
 #include <string>
 #include <vector>
-
-using namespace std;
+#include <map>
+#include <utility>
 
 class Automata {
 	public:
-		Automata(string);
-		string run(string input);
+		Automata(std::string);
+		std::string run(std::string input);
 
 	private:
-		string inputAlphabet, outputAlphabet, activeState;
-		vector <string> states;
-		vector <vector <string>> functionResults;
+		std::string inputAlphabet, outputAlphabet, activeState;
+		std::vector <std::string> states;
+		std::map<std::string, std::string> functionResults;
 
 };
 #endif // AUTOMATA_H
