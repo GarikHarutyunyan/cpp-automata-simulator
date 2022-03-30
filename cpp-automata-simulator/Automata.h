@@ -13,7 +13,7 @@ class Automata {
 	private:
 		std::string inputAlphabet, outputAlphabet, activeState;
 		std::vector <std::string> states;
-		std::map<std::string, std::string> functionResults;
+		std::map<std::pair<std::string, char>, std::pair<std::string, char>> functionResults;
 
 };
 #endif // AUTOMATA_H

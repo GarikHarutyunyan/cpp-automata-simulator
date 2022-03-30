@@ -6,6 +6,7 @@
 Automata::Automata(std::string fileName) {
     std::string content;
     std::ifstream configFile;
+    std::pair<std::string, char> key, value;
     configFile.open(fileName);
     int n = 0;
 
@@ -57,14 +58,12 @@ Automata::Automata(std::string fileName) {
         } 
         else {
             for (int i = 0; content.length(); i++) {
-                // Key is equals to concatination of state and input symbol
-                std::string key = this->states[n] + this->inputAlphabet[i];
                 // Get the substring from start till '|'
-                std::string value = content.substr(0, content.find("|"));
+                std::string valueString = content.substr(0, content.find("|"));
 
-                std::string outChar = value.substr(0, value.find(","));
-                std::string nextState = value.substr(value.find(",")+1, value.length()-1);
-                bool isOutCharValid = outChar.length() == 1 && this->outputAlphabet.find(outChar) < this->outputAlphabet.length();
+                char outChar = valueString[0];
+                std::string nextState = valueString.substr(valueString.find(",")+1, valueString.length()-1);
+                bool isOutCharValid = this->outputAlphabet.find(outChar) < this->outputAlphabet.length();
                 bool isStateValid = distance(this->states.begin(), find(this->states.begin(), this->states.end(), nextState)) < this->states.size();
                 // Check if Output alphabet includes the current character
                 if (!isOutCharValid) {
@@ -75,8 +74,16 @@ Automata::Automata(std::string fileName) {
                     throw std::invalid_argument("Current state does not exist: " + nextState);
                 }
 
+                // Create key for map
+                std::string state = this->states[n];
+                char inputChar = this->inputAlphabet[i];
+                key = std::make_pair(state, inputChar);
+
+                // Create value for map
+                value = std::make_pair(nextState, outChar);
+
                 this->functionResults.insert({ key, value});
-                content.erase(0, value.length() + 1); // +1 for removing "|" character
+                content.erase(0, valueString.length() + 1); // +1 for removing "|" character
             }
             n++;
         }
@@ -86,7 +93,9 @@ Automata::Automata(std::string fileName) {
 }
 
 std::string Automata::run(std::string input) {
-    std::string output = "", functonResult, currentState, key;
+    char outChar;
+    std::string nextState, output = "";
+    std::pair<std::string, char> key, functonResult;
 
     this->activeState = this->states[0];
 
@@ -94,14 +103,14 @@ std::string Automata::run(std::string input) {
         std::string inputSymbol(1, input[i]);
         // Check if Input alphabet includes the current character
         if (this->inputAlphabet.find(input[i]) < this->inputAlphabet.length()) {
-            key = this->activeState + inputSymbol;
+            key = std::make_pair(this->activeState, input[i]);
             functonResult = this->functionResults[key];
             // Get the substring from start till ','
-            std::string outChar = functonResult.substr(0, functonResult.find(","));
+            outChar = functonResult.second;
             output = output + outChar;
 
-            currentState = functonResult.substr(2, functonResult.length()-1);
-            this->activeState = currentState;
+            nextState = functonResult.first;
+            this->activeState = nextState;
         }
         else {
             throw std::invalid_argument("Input Alphabet does not include the current character: " + inputSymbol);
